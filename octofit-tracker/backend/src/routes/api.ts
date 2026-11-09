@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import mongoose from 'mongoose';
 import Activity from '../models/activity';
 import Leaderboard from '../models/leaderboard';
 import Team from '../models/team';
@@ -6,6 +7,14 @@ import User from '../models/user';
 import Workout from '../models/workout';
 
 const apiRouter = Router();
+
+apiRouter.use((_request, response, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    response.status(503).json({ error: 'Database unavailable' });
+    return;
+  }
+  next();
+});
 
 apiRouter.get('/users/', async (_request, response) => {
   response.json(await User.find().populate('team').sort({ name: 1 }).lean());

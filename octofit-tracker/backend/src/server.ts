@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import { connectDatabase } from './config/database';
 import apiRouter from './routes/api';
 
@@ -12,7 +13,11 @@ const baseUrl = codespaceName
 app.use(express.json());
 
 app.get('/api/health', (_request, response) => {
-  response.json({ status: 'ok', baseUrl });
+  response.json({
+    status: 'ok',
+    baseUrl,
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'unavailable',
+  });
 });
 
 app.use('/api', apiRouter);
@@ -22,16 +27,10 @@ app.use((error: unknown, _request: express.Request, response: express.Response, 
   response.status(500).json({ error: 'Internal server error' });
 });
 
-async function startServer() {
-  try {
-    await connectDatabase();
-    app.listen(port, '0.0.0.0', () => {
-      console.log(`OctoFit API listening at ${baseUrl}`);
-    });
-  } catch (error) {
-    console.error('Error starting OctoFit API:', error);
-    process.exitCode = 1;
-  }
-}
+app.listen(port, '0.0.0.0', () => {
+  console.log(`OctoFit API listening at ${baseUrl}`);
+});
 
-void startServer();
+void connectDatabase().catch((error: unknown) => {
+  console.error('Error connecting to octofit_db:', error);
+});
