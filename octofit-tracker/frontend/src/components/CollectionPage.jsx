@@ -10,7 +10,7 @@ function displayValue(value) {
   return String(value)
 }
 
-function CollectionPage({ title, collection, columns }) {
+function CollectionPage({ title, endpoint, columns }) {
   const [records, setRecords] = useState([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
@@ -18,7 +18,7 @@ function CollectionPage({ title, collection, columns }) {
   useEffect(() => {
     const controller = new AbortController()
 
-    fetchCollection(collection, { signal: controller.signal })
+    fetchCollection(endpoint, { signal: controller.signal })
       .then(setRecords)
       .catch((requestError) => {
         if (requestError.name !== 'AbortError') setError(requestError.message)
@@ -28,7 +28,7 @@ function CollectionPage({ title, collection, columns }) {
       })
 
     return () => controller.abort()
-  }, [collection])
+  }, [endpoint])
 
   return (
     <main className="container py-4">
@@ -46,7 +46,7 @@ function CollectionPage({ title, collection, columns }) {
             </thead>
             <tbody>
               {records.map((record, index) => (
-                <tr key={record._id ?? record.id ?? `${collection}-${index}`}>
+                <tr key={record._id ?? record.id ?? `${title}-${index}`}>
                   {columns.map(({ key }) => (
                     <td key={key}>{displayValue(record[key])}</td>
                   ))}
