@@ -1,0 +1,13 @@
+import CollectionPage from './CollectionPage.jsx'
+
+const columns = [
+  { key: 'name', label: 'Workout' },
+  { key: 'description', label: 'Description' },
+  { key: 'difficulty', label: 'Difficulty' },
+  { key: 'durationMinutes', label: 'Minutes' },
+  { key: 'exercises', label: 'Exercises' },
+]
+
+export default function Workouts() {
+  return <CollectionPage title="Workouts" collection="workouts" columns={columns} />
+}

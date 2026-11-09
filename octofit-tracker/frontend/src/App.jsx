@@ -1,13 +1,9 @@
-import { Link, Route, Routes } from 'react-router-dom'
-
-function Home() {
-  return (
-    <main className="container py-5">
-      <h1>Welcome to OctoFit Tracker</h1>
-      <p className="lead">Track your activities and keep moving with your team.</p>
-    </main>
-  )
-}
+import { Link, NavLink, Route, Routes } from 'react-router-dom'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import Users from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
 
 function NotFound() {
   return (
@@ -27,10 +23,22 @@ function App() {
             <img src="/octofitapp-small.png" alt="" width="40" height="40" />
             OctoFit Tracker
           </Link>
+          <nav className="navbar-nav flex-row flex-wrap gap-3">
+            <NavLink className="nav-link" to="/users">Users</NavLink>
+            <NavLink className="nav-link" to="/teams">Teams</NavLink>
+            <NavLink className="nav-link" to="/activities">Activities</NavLink>
+            <NavLink className="nav-link" to="/leaderboard">Leaderboard</NavLink>
+            <NavLink className="nav-link" to="/workouts">Workouts</NavLink>
+          </nav>
         </div>
       </header>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Users />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/activities" element={<Activities />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/workouts" element={<Workouts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

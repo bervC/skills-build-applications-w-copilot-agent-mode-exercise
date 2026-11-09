@@ -1,16 +1,20 @@
-# React + Vite
+# OctoFit Tracker frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The React 19 presentation tier uses Vite, Bootstrap, and React Router. Start the
+frontend with `npm run dev --prefix octofit-tracker/frontend`; Vite serves it on
+port 5173.
 
-Currently, two official plugins are available:
+## API configuration
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+In Codespaces, define `VITE_CODESPACE_NAME` in
+`octofit-tracker/frontend/.env.local`, using the value of the Codespace name:
 
-## React Compiler
+```dotenv
+VITE_CODESPACE_NAME=your-codespace-name
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+The frontend then sends requests to
+`https://<VITE_CODESPACE_NAME>-8000.app.github.dev/api/<collection>/`.
+When the variable is missing or blank, requests use
+`http://localhost:8000/api/<collection>/` instead. Restart the Vite server after
+changing `.env.local`; Vite exposes `VITE_` variables at build time.
